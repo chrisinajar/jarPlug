@@ -36,6 +36,12 @@ jarPlug.modules = $.extend(jarPlug.modules, {
 		url: jarPlug.baseUrl + "autowoot.js",
 		load: true,
 		unload: true
+	},
+	ratelimit: {
+		dependencies: [],
+		url: jarPlug.baseUrl + "ratelimit.js",
+		load: true,
+		unload: true
 	}
 });
 
