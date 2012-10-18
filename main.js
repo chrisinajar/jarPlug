@@ -30,6 +30,12 @@ jarPlug.modules = $.extend(jarPlug.modules, {
 		url: jarPlug.baseUrl + "ui.js",
 		load: true,
 		unload: true,
+	},
+	autowoot: {
+		dependencies: [],
+		url: jarPlug.baseUrl + "autowoot.js",
+		load: true,
+		unload: true
 	}
 });
 
