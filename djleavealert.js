@@ -44,7 +44,7 @@ var djleavealert = jarPlug.djleavealert = {
 			
 			$('#user-container').append(markup);
 		}
-	}
+	},
 	dj_update: function(users) {
 		var len = users.length;
 		
@@ -72,7 +72,7 @@ var djleavealert = jarPlug.djleavealert = {
 			if(++flashes == djleavealert.settings.flashCount) {
 				clearInterval(blinkInt);
 			}
-		}, 500);    
+		}, 500);  
 	}
 }
 })(jQuery);
