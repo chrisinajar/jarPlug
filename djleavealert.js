@@ -26,38 +26,50 @@ if (!jarPlug) return;
 var djleavealert = jarPlug.djleavealert = {
 	settings: {
 		flashCount: 5,
-		gitPath: 'https://raw.github.com/lakario/plug.dj-plugins/master/'
+		djs: []
 	},
 	load: function() {
-		$('#button-vote-negative').click(doublemeh.meh);
-		djleavealert.render();		
+		API.addEventListener(API.DJ_UPDATE, djleavealert.dj_update);
+		djleavealert.render();	
+		djleavealert.djs = API.getDJs();
 		return true;
 	},
 	unload: function() {
 		API.removeEventListener(API.DJ_UPDATE, djleavealert.dj_update);
-	
 		return true;
 	},
 	render: function() {
 		if($('.leave-alert-wrp').length < 1) {
-			var markup = $('<div class="leave-alert-wrp"><audio id="loud-beep"><source src="' + djleavealert.settings.gitPath + 'assets/loudbeep.wav" type="audio/wav"><source src="' + djleavealert.settings.gitPath + 'assets/loudbeep.mp3" type="audio/mp3"></audio></div>');
+			var markup = $('<div class="leave-alert-wrp"><audio id="loud-beep"><source src="' + jarPlug.baseUrl + 'assets/loudbeep.wav" type="audio/wav"><source src="' + jarPlug.baseUrl + 'assets/loudbeep.mp3" type="audio/mp3"></audio></div>');
 			
 			$('#user-container').append(markup);
+			document.getElementById('loud-beep').load();
 		}
 	},
 	dj_update: function(users) {
 		var len = users.length;
+		var me = API.getSelf();
 		
 		if(len < 5) {
-			console.log('[Leave Alert] DJ slot open.');
-			document.getElementById('loud-beep').play();
-			djleavealert.flashBg(5);
+			// if i am already on the deck, or i just left. don't notify
+			if(users.indexOf(me) == -1 && djleavealert.settings.djs.indexOf(me) == -1) {
+				console.log('[Leave Alert] DJ slot open.');
+				djleavealert.beep();
+				djleavealert.flashBackground();
+			}
 		}
 		else {
 			console.log('[Leave Alert] All slots taken.');
 		}
+		
+		djleavealert.settings.djs = users;
 	},
-	flashWindow: function() {
+	beep: function() {
+		var element = document.getElementById('loud-beep');
+		element.load();
+		element.play();
+	},
+	flashBackground: function() {
 		var flashes = 0;
 		
 		var blinkInt = setInterval(function() {
