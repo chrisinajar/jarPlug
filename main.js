@@ -48,6 +48,12 @@ jarPlug.modules = $.extend(jarPlug.modules, {
 		url: jarPlug.baseUrl + "idle.js",
 		load: true,
 		unload: true,
+	},
+	djleavealert: {
+		dependencies: [],
+		url: jarPlug.baseUrl + "djleavealert.js",
+		load: true,
+		unload: true,
 	}
 });
 
@@ -119,6 +125,7 @@ var main = jarPlug.main = {
 				, 'Auto Woot': 	jarPlug.ui.createSettingsElement('module:autowoot', 'checkbox')
 				, 'Double-Meh to Mute': jarPlug.ui.createSettingsElement('module:doublemeh', 'checkbox')
 				, 'Idle Timers': jarPlug.ui.createSettingsElement('module:idle', 'checkbox')
+				, 'DJ Leave Alert': jarPlug.ui.createSettingsElement('module:djleavealert', 'checkbox')
 				, ' ': 			jarPlug.ui.createSettingsElement(jarPlug.reload, 'button')
 													.text("Reload jarPlug")
 			}
