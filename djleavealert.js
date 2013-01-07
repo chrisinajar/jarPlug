@@ -26,7 +26,8 @@ if (!jarPlug) return;
 var djleavealert = jarPlug.djleavealert = {
 	settings: {
 		flashCount: 5,
-		djs: []
+		djs: [],
+		maxDjs: 5
 	},
 	load: function() {
 		API.addEventListener(API.DJ_UPDATE, djleavealert.dj_update);
@@ -50,10 +51,13 @@ var djleavealert = jarPlug.djleavealert = {
 		var len = users.length;
 		var me = API.getSelf();
 		
-		if(len < 5) {
-			// if i am already on the deck, or i just left. don't notify
-			if(users.indexOf(me) == -1 && djleavealert.settings.djs.indexOf(me) == -1) {
-				console.log('[Leave Alert] DJ slot open.');
+		if(len < djleavealert.settings.maxDjs) {
+			console.log('[Leave Alert] DJ slot open.');
+
+			// if there was already a slot available, i am already on the deck, or i just stepped down: don't notify
+			if((djleavealert.settings.djs.length >= djleavealert.settings.maxDjs || djleavealert.settings.djs.length < 1)
+				&& users.indexOf(me) == -1 
+				&& djleavealert.settings.djs.indexOf(me) == -1) {
 				djleavealert.beep();
 				djleavealert.flashBackground();
 			}
