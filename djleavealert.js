@@ -1,9 +1,14 @@
 /*
-Copyright 2012, Coding Soundtrack
+Copyright 2013, Coding Soundtrack
 All rights reserved.
 
 Authors:
 lakario
+
+Description:
+This plugin monitors the currently playing djs and notifies the user 
+when a dj slot becomes available by flashing and making noise. It will 
+only notify if the user is not currently djing.
 
 
 Redistribution and use in source and binary forms, with or without
@@ -41,7 +46,10 @@ var djleavealert = jarPlug.djleavealert = {
 	},
 	render: function() {
 		if($('.leave-alert-wrp').length < 1) {
-			var markup = $('<div class="leave-alert-wrp"><audio id="loud-beep"><source src="' + jarPlug.baseUrl + 'assets/loudbeep.wav" type="audio/wav"><source src="' + jarPlug.baseUrl + 'assets/loudbeep.mp3" type="audio/mp3"></audio></div>');
+			var markup = $('<div class="leave-alert-wrp"> \
+				<audio id="loud-beep"><source src="' + jarPlug.baseUrl + 'assets/loudbeep.wav" type="audio/wav"> \
+				<source src="' + jarPlug.baseUrl + 'assets/loudbeep.mp3" type="audio/mp3"></audio> \
+				</div>');
 			
 			$('#user-container').append(markup);
 			document.getElementById('loud-beep').load();
