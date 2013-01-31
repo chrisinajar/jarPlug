@@ -42,7 +42,7 @@ var hidensfw = jarPlug.hidensfw = {
 		return true;
 	},
 	chat: function(data) {
-		if(data.message && /\bnsfw\b/.test(data.message)) {
+		if(data.message && /\bnsfw\b/i.test(data.message)) {
 			var playback = $("#playback");
 			API.addEventListener(API.DJ_ADVANCE, hidensfw.dj_advance);
 			$("#playback").hide();
