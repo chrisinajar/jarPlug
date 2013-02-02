@@ -31,28 +31,42 @@ if (!jarPlug) return;
 var hidensfw = jarPlug.hidensfw = {
 	load: function() {
 		API.addEventListener(API.CHAT, hidensfw.chat);
+
+		$('#playback').append(
+			$('<button id="show-video">Show Video</button>')
+				.css({
+					'position':'absolute',
+					'top':'100px', 
+					'left':'40%', 
+					'z-index':'3',
+					'width':'100px',
+					'height':'50px',
+				})
+				.on('click', function() { 
+					$('#playback-container').show(); 
+				})
+		);
+
 		return true;
 	},
 	unload: function() {
 		API.removeEventListener(API.CHAT, hidensfw.chat);
 		API.removeEventListener(API.DJ_ADVANCE, hidensfw.dj_advance);
-		if(!jarPlug.settings['hidevideo']) {
-			$("#playback").show();
-		}
+		
+		$("#playback-container").show();
+		$('#show-video').remove();
+
 		return true;
 	},
 	chat: function(data) {
 		if(data.message && /\bnsfw\b/i.test(data.message)) {
-			var playback = $("#playback");
 			API.addEventListener(API.DJ_ADVANCE, hidensfw.dj_advance);
-			$("#playback").hide();
+			$("#playback-container").hide();
 		}
 	},
 	dj_advance: function() {
 		API.removeEventListener(API.DJ_ADVANCE, hidensfw.dj_advance);
-		if(!jarPlug.settings['hidevideo']) {
-			$("#playback").show();
-		}
+		$("#playback-container").show();
 	}
 }
 })(jQuery);
