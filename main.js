@@ -29,31 +29,37 @@ jarPlug.modules = $.extend(jarPlug.modules, {
 		dependencies: ['main'],
 		url: jarPlug.baseUrl + "ui.js",
 		load: true,
-		unload: true,
+		unload: true
 	},
 	autowoot: {
 		dependencies: [],
 		url: jarPlug.baseUrl + "autowoot.js",
 		load: true,
-		unload: true,
+		unload: true
 	},
 	doublemeh: {
 		dependencies: [],
 		url: jarPlug.baseUrl + "doublemeh.js",
 		load: true,
-		unload: true,
+		unload: true
 	},
 	idle: {
 		dependencies: [],
 		url: jarPlug.baseUrl + "idle.js",
 		load: true,
-		unload: true,
+		unload: true
 	},
 	djleavealert: {
 		dependencies: [],
 		url: jarPlug.baseUrl + "djleavealert.js",
 		load: true,
-		unload: true,
+		unload: true
+	},
+	hidensfw: {
+		dependencies: [],
+		url: jarPlug.baseUrl + "hidensfw.js",
+		load: true,
+		unload: true
 	}
 });
 
@@ -126,8 +132,8 @@ var main = jarPlug.main = {
 				, 'Double-Meh to Mute': jarPlug.ui.createSettingsElement('module:doublemeh', 'checkbox')
 				, 'Idle Timers': jarPlug.ui.createSettingsElement('module:idle', 'checkbox')
 				, 'DJ Leave Alert': jarPlug.ui.createSettingsElement('module:djleavealert', 'checkbox')
-				, ' ': 			jarPlug.ui.createSettingsElement(jarPlug.reload, 'button')
-													.text("Reload jarPlug")
+				, 'Hide NSFW': jarPlug.ui.createSettingsElement('module:hidensfw', 'checkbox')
+				, ' ': 			jarPlug.ui.createSettingsElement(jarPlug.reload, 'button').text("Reload jarPlug")
 			}
 		}
 	},
