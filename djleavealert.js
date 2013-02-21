@@ -77,13 +77,9 @@ var djleavealert = jarPlug.djleavealert = {
 		djleavealert.settings.djs = users;
 	},
 	beep: function() {
-		var volumeSlider = $('#volume .ui-slider-range');
-		var plugVolume = parseFloat(volumeSlider.css('width')) / parseFloat(volumeSlider.parent().css('width'));
-		if(isNaN(plugVolume)) {
-			plugVolume = 1;
-		}
-
+		var plugVolume = (window.Playback.lastVolume || 100) / 100;
 		var loudBeep = document.getElementById('loud-beep');
+
 		loudBeep.load();
 		loudBeep.volume = Math.min(1, (plugVolume + (plugVolume * 0.25))); // plays at current volume + 25% or full volume (whichever is less)
 		loudBeep.play();
