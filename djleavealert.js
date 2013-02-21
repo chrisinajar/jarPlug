@@ -77,7 +77,7 @@ var djleavealert = jarPlug.djleavealert = {
 		djleavealert.settings.djs = users;
 	},
 	beep: function() {
-		var plugVolume = (window.Playback.lastVolume || 100) / 100;
+		var plugVolume = (window.Playback.volume || 100) / 100;
 		var loudBeep = document.getElementById('loud-beep');
 
 		loudBeep.load();
