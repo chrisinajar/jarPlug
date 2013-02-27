@@ -60,6 +60,12 @@ jarPlug.modules = $.extend(jarPlug.modules, {
 		url: jarPlug.baseUrl + "hidensfw.js",
 		load: true,
 		unload: true
+	},
+	emoji: {
+		dependencies: [],
+		url: jarPlug.baseUrl + "emoji.js",
+		load: true,
+		unload: true
 	}
 });
 
@@ -133,6 +139,7 @@ var main = jarPlug.main = {
 				, 'Idle Timers': jarPlug.ui.createSettingsElement('module:idle', 'checkbox')
 				, 'DJ Leave Alert': jarPlug.ui.createSettingsElement('module:djleavealert', 'checkbox')
 				, 'Hide NSFW': jarPlug.ui.createSettingsElement('module:hidensfw', 'checkbox')
+				, 'Emojis': jarPlug.ui.createSettingsElement('module:emoji', 'checkbox')
 				, ' ': 			jarPlug.ui.createSettingsElement(jarPlug.reload, 'button').text("Reload jarPlug")
 			}
 		}
