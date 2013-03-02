@@ -32,7 +32,9 @@ var djleavealert = jarPlug.djleavealert = {
 	settings: {
 		flashCount: 5,
 		djs: [],
-		maxDjs: 5
+		maxDjs: 5,
+		maxVolume: 0.70, // max volume of alert beep (it's LOUD)
+		volumeBoost: 0.15, // boost % for alert beep over pdj volume (up to maxVolume)
 	},
 	load: function() {
 		API.addEventListener(API.DJ_UPDATE, djleavealert.dj_update);
@@ -77,11 +79,14 @@ var djleavealert = jarPlug.djleavealert = {
 		djleavealert.settings.djs = users;
 	},
 	beep: function() {
-		var plugVolume = (window.Playback.volume || 100) / 100;
-		var loudBeep = document.getElementById('loud-beep');
+		var plugVolume = (window.Playback.volume > 0 ? window.Playback.volume : 10) / 100;
+		if(isNaN(plugVolume)) {
+			plugVolume = djleavealert.settings.maxVolume;
+		}
 
+		var loudBeep = document.getElementById('loud-beep');
 		loudBeep.load();
-		loudBeep.volume = Math.min(1, (plugVolume + (plugVolume * 0.25))); // plays at current volume + 25% or full volume (whichever is less)
+		loudBeep.volume = Math.min(djleavealert.settings.maxVolume, (plugVolume || 0.1 + (plugVolume * djleavealert.settings.volumeBoost)));
 		loudBeep.play();
 	},
 	flashBackground: function() {
