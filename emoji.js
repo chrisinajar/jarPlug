@@ -24,11 +24,14 @@ I am not responsible any docking that results from this.
 
 (function($, undefined) {
 if (!jarPlug) return;
-	
+
+
+var emojiMatch = /:([^ :]+):/;
+
 var emoji = jarPlug.emoji = {
 	load: function() {
 		$("head link[rel='stylesheet']:last").after(
-			'<link class="jarPlugEmoji" rel="stylesheet" type="text/css" href="' + jarPlug.baseUrl + 'assets/emoji.css" />'
+			'<link class="jarPlugEmoji" rel="stylesheet" type="text/css" href="' + jarPlug.baseUrl + 'assets/emoji.css" media="all" />'
 		);
 		emoji.emojify();
 		
@@ -75,23 +78,25 @@ var emoji = jarPlug.emoji = {
 		//':x: :x:x:' => (x) (x)x:
 		//': :x:' => : (x)
 		var elementHtml = $element.html();
-		var emojifiedHtml = elementHtml;
-		
-		var previousColon = elementHtml.indexOf(':');
-		var thisColon = elementHtml.indexOf(':', previousColon + 1);
-		while (previousColon != -1 && thisColon != -1) {
-			var emojiKey = elementHtml.substring(previousColon + 1, thisColon);
-			if (emojiMap[emojiKey]) {
-				var emojiSpan = "<span title='" + emojiKey + "' class='jarplug-emoji jarplug-emoji-" + emojiMap[emojiKey] + "'></span>"; 
-				var replaceFirstMatchPattern = new RegExp(':' + emojiKey + ':');
-				emojifiedHtml = emojifiedHtml.replace(replaceFirstMatchPattern, emojiSpan);
-			}
-			
-			previousColon = thisColon;
-			thisColon = elementHtml.indexOf(':', previousColon + 1);
+		var needsColon = false;
+		if (elementHtml.substr(0, 2) == ": ") {
+			needsColon = true;
+			elementHtml = elementHtml.substr(2);
 		}
-		
-		$element.html(emojifiedHtml);
+		var emojifiedHtml = elementHtml;
+
+		var nextEmoji = emojiMatch.exec(emojifiedHtml);
+		while (nextEmoji) {
+			var emojiKey = nextEmoji[1].toLowerCase();
+			var emojiSpan = "&colon;" + emojiKey + "&colon;";
+			if (emojiMap[emojiKey]) {
+				emojiSpan = "<span title='" + emojiKey + "' class='jarplug-emoji jarplug-emoji-" + emojiMap[emojiKey] + "'></span>";
+			}
+			emojifiedHtml = emojifiedHtml.substr(0, nextEmoji.index) + emojiSpan + emojifiedHtml.substr(nextEmoji.index + nextEmoji[0].length);
+			var nextEmoji = emojiMatch.exec(emojifiedHtml);
+		}
+
+		$element.html((needsColon ? ": " : "") + emojifiedHtml);
 	},
 	animationStart: function(event) {
 		if (!event || event.animationName != 'emojiNodeInserted')

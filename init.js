@@ -29,7 +29,7 @@ if ("jarPlug" in window)
 	delete window.jarPlug;
 
 // Don't edit this directly in source. Use the localStorage.jarplug_devurl value instead.
-var baseUrl = "https://raw.github.com/chrisinajar/jarPlug/master/";
+var baseUrl = "https://rawgithub.com/chrisinajar/jarPlug/master/";
 
 // Yeah, this one.
 if (typeof localStorage.jarplug_devurl === 'string')
