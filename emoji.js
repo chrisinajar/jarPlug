@@ -25,6 +25,21 @@ I am not responsible any docking that results from this.
 (function($, undefined) {
 if (!jarPlug) return;
 
+function preg_quote(str) {
+    // http://kevin.vanzonneveld.net
+    // +   original by: booeyOH
+    // +   improved by: Ates Goral (http://magnetiq.com)
+    // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // +   bugfixed by: Onno Marsman
+    // *     example 1: preg_quote("$40");
+    // *     returns 1: '\$40'
+    // *     example 2: preg_quote("*RRRING* Hello?");
+    // *     returns 2: '\*RRRING\* Hello\?'
+    // *     example 3: preg_quote("\\.+*?[^]$(){}=!<>|:");
+    // *     returns 3: '\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!\<\>\|\:'
+
+    return (str+'').replace(/([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!\<\>\|\:])/g, "\\$1");
+}
 
 var emojiMatch = /:([^ :]+):/;
 
@@ -85,6 +100,10 @@ var emoji = jarPlug.emoji = {
 		}
 		var emojifiedHtml = elementHtml;
 
+		for (var word in emojiOverride) (function(word, emoji) {
+			emojifiedHtml = emojifiedHtml.replace(new RegExp(preg_quote(word), 'ig'), ':'+emoji+':');
+		})(word, emojiOverride[word]);
+
 		var nextEmoji = emojiMatch.exec(emojifiedHtml);
 		while (nextEmoji) {
 			var emojiKey = nextEmoji[1].toLowerCase();
@@ -105,6 +124,14 @@ var emoji = jarPlug.emoji = {
 		emoji.emojify();
 	}
 }
+
+// special overrides, they don't need ::'s, so put the full string in
+// good for smiley faces and <3 and crap like that.
+// alias to real emoji names
+var emojiOverride = {
+	// <3
+	'&lt;3': 'heart'
+};
 
 var emojiMap = {
 	'100': '1f4af',
