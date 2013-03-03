@@ -760,7 +760,7 @@ var emojiMap = {
 	'rage': '1f621',
 	'railway_car': '1f683',
 	'rainbow': '1f308',
-	'raised_hand': '270b',
+	'raised_hand': '1f64b',
 	'raised_hands': '1f64c',
 	'raising_hand': '1f64b',
 	'ramen': '1f35c',
