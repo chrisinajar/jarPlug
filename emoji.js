@@ -109,7 +109,12 @@ var emoji = jarPlug.emoji = {
 			var emojiKey = nextEmoji[1].toLowerCase();
 			var emojiSpan = "&colon;" + emojiKey + "&colon;";
 			if (emojiMap[emojiKey]) {
-				emojiSpan = "<span title='" + emojiKey + "' class='jarplug-emoji jarplug-emoji-" + emojiMap[emojiKey] + "'></span>";
+				emojiSpan = ([
+					'<span class="emoji-glow">',
+						'<span class="jarplug-emoji jarplug-emoji-' + emojiMap[emojiKey] + '"></span>',
+					'</span>'
+				].join(''));
+				console.log("Generated this emoji", emojiSpan)
 			}
 			emojifiedHtml = emojifiedHtml.substr(0, nextEmoji.index) + emojiSpan + emojifiedHtml.substr(nextEmoji.index + nextEmoji[0].length);
 			var nextEmoji = emojiMatch.exec(emojifiedHtml);
