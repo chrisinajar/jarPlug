@@ -114,7 +114,6 @@ var emoji = jarPlug.emoji = {
 						'<span class="jarplug-emoji jarplug-emoji-' + emojiMap[emojiKey] + '"></span>',
 					'</span>'
 				].join(''));
-				console.log("Generated this emoji", emojiSpan)
 			}
 			emojifiedHtml = emojifiedHtml.substr(0, nextEmoji.index) + emojiSpan + emojifiedHtml.substr(nextEmoji.index + nextEmoji[0].length);
 			var nextEmoji = emojiMatch.exec(emojifiedHtml);
