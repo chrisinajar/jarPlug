@@ -53,13 +53,14 @@
 	vertical-align: middle;
 	z-index: 0;
 
-	background: -moz-radial-gradient(center, ellipse cover,  rgba(216,216,216,1) 0%, rgba(216,216,216,0) 100%); /* FF3.6+ */
-	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(216,216,216,1)), color-stop(100%,rgba(216,216,216,0))); /* Chrome,Safari4+ */
-	background: -webkit-radial-gradient(center, ellipse cover,  rgba(216,216,216,1) 0%,rgba(216,216,216,0) 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-radial-gradient(center, ellipse cover,  rgba(216,216,216,1) 0%,rgba(216,216,216,0) 100%); /* Opera 12+ */
-	background: -ms-radial-gradient(center, ellipse cover,  rgba(216,216,216,1) 0%,rgba(216,216,216,0) 100%); /* IE10+ */
-	background: radial-gradient(ellipse at center,  rgba(216,216,216,1) 0%,rgba(216,216,216,0) 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d8d8d8', endColorstr='#00d8d8d8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	background: -moz-radial-gradient(center, ellipse cover,  rgba(242,242,242,0.5) 0%, rgba(242,242,242,0) 100%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(242,242,242,0.5)), color-stop(100%,rgba(242,242,242,0))); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover,  rgba(242,242,242,0.5) 0%,rgba(242,242,242,0) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover,  rgba(242,242,242,0.5) 0%,rgba(242,242,242,0) 100%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover,  rgba(242,242,242,0.5) 0%,rgba(242,242,242,0) 100%); /* IE10+ */
+	background: radial-gradient(ellipse at center,  rgba(242,242,242,0.5) 0%,rgba(242,242,242,0) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80f2f2f2', endColorstr='#00f2f2f2',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
 }
 span.jarplug-emoji-0023{ background-position: 0 0; } 
 span.jarplug-emoji-0030{ background-position: 0 -17px; } 
