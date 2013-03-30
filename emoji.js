@@ -42,6 +42,8 @@ function preg_quote(str) {
 }
 
 var emojiMatch = /:([^ :]+):/;
+var emojiSuggestionBox = null;
+var chatInputField = null;
 
 var emoji = jarPlug.emoji = {
 	load: function() {
@@ -49,6 +51,15 @@ var emoji = jarPlug.emoji = {
 			'<link class="jarPlugEmoji" rel="stylesheet" type="text/css" href="' + jarPlug.baseUrl + 'assets/emoji.css" media="all" />'
 		);
 		emoji.emojify();
+		
+		emojiSuggestionBox = $("<div id='jarplug-emoji-suggestion' style='display: none;'>" +
+			"<div class='frame-background'></div>" +
+			"<div id='jarplug-emoji-suggestion-items' style='position: absolute; top: 0; left: 0; height: 100%; width: 100%;'></div>" +
+		"</div>");
+		emojiSuggestionBox.insertAfter('#chat-mention-suggestion');
+		emojiSuggestionBox.on('div.jarplug-emoji-suggestion-item', 'click', function() {
+			emoji.useEmojiSuggestion($(this));
+		});
 		
 		if ($.browser.msie && parseInt($.browser.version, 10) <= 9) {
 			API.addEventListener(API.CHAT, emoji.emojify);
@@ -59,9 +70,15 @@ var emoji = jarPlug.emoji = {
 			document.addEventListener('webkitAnimationStart', emoji.animationStart);
 		}
 		
+		chatInputField = $('#chat-input-field');
+		chatInputField.on('keydown', emoji.keydown)
+			.on('keyup', emoji.keyup);
 		return true;
 	},
 	unload: function() {
+		chatInputField.off('keydown', emoji.keydown)
+			.off('keyup', emoji.keyup);
+		
 		if ($.browser.msie && parseInt($.browser.version, 10) <= 9) {
 			API.removeEventListener(API.CHAT, emoji.emojify);
 		}
@@ -71,13 +88,14 @@ var emoji = jarPlug.emoji = {
 			document.removeEventListener('webkitAnimationStart', emoji.animationStart);
 		}
 		
+		emojiSuggestionBox.remove();
 		emoji.unemojifyChat();
 		$("link.jarPlugEmoji").remove();
 		return true;
 	},
 	unemojifyChat: function() {
-		$('#chat-messages span.jarplug-emoji').replaceWith(function() {
-			return ":" + $(this).attr('title') + ":";
+		$('#chat-messages span.emoji-glow').replaceWith(function() {
+			return $(this).attr('title');
 		});
 		$('#chat-messages span.emojiChecked').removeClass('emojiChecked');
 	},
@@ -110,7 +128,7 @@ var emoji = jarPlug.emoji = {
 			var emojiSpan = "&colon;" + emojiKey + "&colon;";
 			if (emojiMap[emojiKey]) {
 				emojiSpan = ([
-					'<span class="emoji-glow">',
+					'<span class="emoji-glow" title="' + emojiSpan + '">',
 						'<span class="jarplug-emoji jarplug-emoji-' + emojiMap[emojiKey] + '"></span>',
 					'</span>'
 				].join(''));
@@ -126,6 +144,183 @@ var emoji = jarPlug.emoji = {
 			return;
 		
 		emoji.emojify();
+	},
+	keydown: function(e) {
+		//Process these on key down so the cursor doesn't move when moving the selected suggestion.
+		if (emojiSuggestionBox.is(':visible')) {
+			if (e.which == 13) { //Enter
+				emoji.useEmojiSuggestion();
+				return false;
+			}
+			else if (e.which == 38) { //Up
+				emoji.selectPreviousEmojiSuggestion();
+				return false;
+			}
+			else if (e.which == 40) { //Down
+				emoji.selectNextEmojiSuggestion();
+				return false;
+			}
+		}
+	},
+	keyup: function(e) {
+		if (emojiSuggestionBox.is(':visible') && e.which == 38 || e.which == 40 || e.which == 13) {
+			return false;
+		}
+		
+		var caretPosition = emoji.getCaretPosition(chatInputField[0]);
+		var textBeforeCaret = chatInputField.val().slice(0, caretPosition);
+		var currentWord = textBeforeCaret.slice(textBeforeCaret.lastIndexOf(' ') + 1);
+		
+		if (currentWord.slice(0, 1) != ':') {
+			if (emojiSuggestionBox.is(':visible')) {
+				emojiSuggestionBox.find('div.jarplug-emoji-suggestion-item').remove();
+				emojiSuggestionBox.hide();
+			}
+			return;
+		}
+		
+		var currentWord = currentWord.slice(1);
+		var matches = emoji.wordSuggestionLookup(emojiKeys, currentWord, 5);
+		emoji.displayEmojiSuggestions(matches);
+	},
+	displayEmojiSuggestions: function(suggestions) {
+		emojiSuggestionBox.find('div.jarplug-emoji-suggestion-item').remove();
+		if (suggestions.length == 0) {
+			emojiSuggestionBox.hide();
+			return;
+		}
+		
+		var emojiSuggestionItems = "";
+		for (var i = 0; i < suggestions.length; i++) {
+			emojiSuggestionItems +=
+				"<div class='jarplug-emoji-suggestion-item'>" +
+					"<span class='emoji-glow'><span class='jarplug-emoji jarplug-emoji-" + emojiMap[suggestions[i]] + "'></span></span>" +
+					"<span class='suggestion'>" + suggestions[i] + "</span>" +
+				"</div>";
+		}
+		
+		var chatOffset = $('#chat-input-field').offset();
+		var height = 22 * suggestions.length;
+		var width = 107;
+		emojiSuggestionBox.css({
+			'position': 'absolute',
+			'top': chatOffset.top - height - 5,
+			'left': chatOffset.left + 23,
+			'width': 107,
+			'height': height,
+			'z-index': 37
+		});
+		
+		$('#jarplug-emoji-suggestion-items').append(emojiSuggestionItems);
+		emojiSuggestionBox.find('div.jarplug-emoji-suggestion-item').first().addClass('selected');
+		emojiSuggestionBox.show();
+	},
+	selectNextEmojiSuggestion: function() {
+		var suggestions = emojiSuggestionBox.find('div.jarplug-emoji-suggestion-item');
+		if (suggestions.length < 2) {
+			return;
+		}
+		
+		var currentSuggestion = suggestions.filter('.selected');
+		var newSuggestion = currentSuggestion.next();
+		if (newSuggestion.length == 0) {
+			newSuggestion = suggestions.first();
+		}
+		
+		currentSuggestion.removeClass('selected');
+		newSuggestion.addClass('selected');
+	},
+	selectPreviousEmojiSuggestion: function() {
+		var suggestions = emojiSuggestionBox.find('div.jarplug-emoji-suggestion-item');
+		if (suggestions.length < 2) {
+			return;
+		}
+		
+		var currentSuggestion = suggestions.filter('.selected');
+		var newSuggestion = currentSuggestion.prev();
+		if (newSuggestion.length == 0) {
+			newSuggestion = suggestions.last();
+		}
+		
+		currentSuggestion.removeClass('selected');
+		newSuggestion.addClass('selected');
+	},
+	useEmojiSuggestion: function(suggestionItem) {
+		suggestionItem = suggestionItem || emojiSuggestionBox.find('div.jarplug-emoji-suggestion-item.selected');
+		var suggestion = suggestionItem.find('span.suggestion').text();
+		
+		var caretPosition = emoji.getCaretPosition(chatInputField[0]);
+		var textBeforeCaret = chatInputField.val().slice(0, caretPosition);
+		var textAfterCaret = chatInputField.val().slice(caretPosition);
+		var startOfCurrentWord = textBeforeCaret.lastIndexOf(' ') + 1;
+		var textBeforeCurrentWord = textBeforeCaret.slice(0, startOfCurrentWord);
+		
+		var newTextBeforeCaret = textBeforeCurrentWord + ":" + suggestion + ": ";
+		var newText = newTextBeforeCaret + textAfterCaret;
+		chatInputField.val(newText);
+		emoji.setCaretPosition(chatInputField[0], newTextBeforeCaret.length);
+		
+		emojiSuggestionBox.find('div.jarplug-emoji-suggestion-item').remove();
+		emojiSuggestionBox.hide();
+	},
+	getCaretPosition: function(el) {
+		if (el.selectionStart) {
+			return el.selectionStart;
+		} else if (document.selection) {
+			el.focus();
+			
+			var r = document.selection.createRange();
+			if (r == null) {
+				return 0;
+			}
+			
+			var re = el.createTextRange(),
+			rc = re.duplicate();
+			re.moveToBookmark(r.getBookmark());
+			rc.setEndPoint('EndToStart', re);
+			
+			return rc.text.length;
+		}
+		return 0;
+	},
+	setCaretPosition: function(el, caretPos) {
+		if(el.createTextRange) {
+			var range = el.createTextRange();
+			range.move('character', caretPos);
+			range.select();
+		}
+		else if(el.selectionStart) {
+			el.focus();
+			el.setSelectionRange(caretPos, caretPos);
+		}
+	},
+	wordSuggestionLookup: function(dictionary, word, maxSuggestions) {
+		//Binary search.
+		var start = 0;
+		var end = dictionary.length - 1;
+		var mid;
+		while (start < end) {
+			mid = Math.floor((end + start) / 2);
+			if (dictionary[mid] < word) {
+				start = mid + 1;
+			} else {
+				end = mid;
+			}
+		}
+		
+		//Either mid matches, mid + 1 matches, or there are no matches
+		//and the first iteration will break out.
+		var i = (dictionary[mid].slice(0, word.length) == word) ? mid : mid + 1;
+		var matches = [];
+		while (i < dictionary.length && matches.length < maxSuggestions) {
+			if (dictionary[i].slice(0, word.length) != word) {
+				break;
+			}
+			matches.push(dictionary[i]);
+			i++;
+		}
+		
+		return matches;
 	}
 }
 
@@ -1022,5 +1217,11 @@ var emojiMap = {
 	'zero': '0030',
 	'zzz': '1f4a4'
 };
+
+var emojiKeys = [];
+for (key in emojiMap) {
+	emojiKeys.push(key);
+}
+emojiKeys.sort();
 
 })(jQuery);
