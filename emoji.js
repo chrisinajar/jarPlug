@@ -61,14 +61,9 @@ var emoji = jarPlug.emoji = {
 			emoji.useEmojiSuggestion($(this));
 		});
 		
-		if ($.browser.msie && parseInt($.browser.version, 10) <= 9) {
-			API.addEventListener(API.CHAT, emoji.emojify);
-		}
-		else {
-			document.addEventListener('animationstart', emoji.animationStart);
-			document.addEventListener('MSAnimationStart', emoji.animationStart);
-			document.addEventListener('webkitAnimationStart', emoji.animationStart);
-		}
+		document.addEventListener('animationstart', emoji.animationStart);
+		document.addEventListener('MSAnimationStart', emoji.animationStart);
+		document.addEventListener('webkitAnimationStart', emoji.animationStart);
 		
 		chatInputField = $('#chat-input-field');
 		chatInputField.on('keydown', emoji.keydown)
@@ -79,14 +74,9 @@ var emoji = jarPlug.emoji = {
 		chatInputField.off('keydown', emoji.keydown)
 			.off('keyup', emoji.keyup);
 		
-		if ($.browser.msie && parseInt($.browser.version, 10) <= 9) {
-			API.removeEventListener(API.CHAT, emoji.emojify);
-		}
-		else {
-			document.removeEventListener('animationstart', emoji.animationStart);
-			document.removeEventListener('MSAnimationStart', emoji.animationStart);
-			document.removeEventListener('webkitAnimationStart', emoji.animationStart);
-		}
+		document.removeEventListener('animationstart', emoji.animationStart);
+		document.removeEventListener('MSAnimationStart', emoji.animationStart);
+		document.removeEventListener('webkitAnimationStart', emoji.animationStart);
 		
 		emojiSuggestionBox.remove();
 		emoji.unemojifyChat();

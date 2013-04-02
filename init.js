@@ -195,7 +195,8 @@ var jarPlug = window.jarPlug = {
 			// something else? Think of more options!
 			url: baseUrl + "main.js",
 			load: true, // i have a load function!
-			unload: false, // fuck unloading, fuck you!
+			unload: false, // fuck unloading, fuck you!,
+			loadInPopout: true
 		}
 	},
 	define: define,
@@ -213,6 +214,11 @@ var jarPlug = window.jarPlug = {
 			throw new Error("Module must be in jarPlug.modules before loading");
 		}
 		var module = jarPlug.modules[name];
+		
+		if (jarPlug.isInPopout() && !module.loadInPopout) {
+			console.log("Not loading module " + name + " because its loadInPopout setting is false.");
+			return deferr.reject();
+		}
 
 		exec(function() {
 			console.log('Flow step one');
@@ -282,6 +288,9 @@ var jarPlug = window.jarPlug = {
 	},
 	reload: function() {
 		$.getScript(jarPlug.baseUrl + "/init.js");
+	},
+	isInPopout: function() {
+		return document.URL == 'http://plug.dj/_/popout/';
 	}
 	// PROFIT
 }
