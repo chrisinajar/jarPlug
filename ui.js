@@ -26,11 +26,38 @@ var ui = jarPlug.ui = {
 	settings: {
 		workmode: false
 	},
+	settingsChangedCallback: null,
 	load: function() {
-		ui.createSideButton();
-		console.log('Hey look, ui loaded!')
-
+		if (jarPlug.isInPopout()) {
+			ui.loadPopout();
+		}
+		else {
+			ui.loadMainWindow();
+		}
+		
+		console.log('Hey look, ui loaded!');
 		return true;
+	},
+	loadPopout: function() {
+		window.opener.jarPlug.ui.settingsChangedCallback = jarPlug.ui.settingsElementUpdated;
+			
+		var plugdjBeforeUnload = window.onbeforeunload;
+		$(window).on('beforeunload', function () {
+			window.opener.jarPlug.ui.settingsChangedCallback = null;
+			plugdjBeforeUnload();
+		});
+	},
+	loadMainWindow: function() {
+		if (Popout) {
+			Popout.$.getScript(jarPlug.baseUrl + "/init.js");
+		}
+		$("#button-chat-popout").click(function() {
+			$(Popout).load(function() {
+				Popout.$.getScript(jarPlug.baseUrl + "/init.js");
+			});
+		});
+
+		ui.createSideButton();
 	},
 	createSideButton: function() {
 		var menu = $("<div />", {
@@ -208,13 +235,7 @@ var ui = jarPlug.ui = {
 
 		if (!isFunction && isModule) {
 			widget.change(function() {
-				if (widget.data('jarPlugGetValue')() === true) {
-					jarPlug.main.addModule(name)
-					$(jarPlug).trigger('settingsChanged', name, true);
-				} else if (widget.data('jarPlugGetValue')() === false) {
-					jarPlug.main.removeModule(name)
-					$(jarPlug).trigger('settingsChanged', name, false);
-				}
+				ui.settingsElementUpdated(name, widget.data('jarPlugGetValue')());
 			});
 			$(jarPlug).on('settingsChanged', function(event, eventName, value) {
 				if (name !== eventName)
@@ -246,7 +267,29 @@ var ui = jarPlug.ui = {
 
 		return widget;
 	},
+	settingsElementUpdated: function(name, value) {
+		if (value === true) {
+			jarPlug.main.addModule(name)
+			$(jarPlug).trigger('settingsChanged', name, true);
+			
+			if ($.isFunction(ui.settingsChangedCallback)) {
+				ui.settingsChangedCallback(name, true);
+			}
+		} else if (value === false) {
+			jarPlug.main.removeModule(name)
+			$(jarPlug).trigger('settingsChanged', name, false);
+			
+			if ($.isFunction(ui.settingsChangedCallback)) {
+				ui.settingsChangedCallback(name, false);
+			}
+		}
+	},
 	unload: function() {
+		if (jarPlug.isInPopout()) {
+			window.opener.jarPlug.ui.settingsChangedCallback = null;
+			return true;
+		}
+		
 		$(".jarPlug").remove();
 
 		ui.checkOverlay();

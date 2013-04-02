@@ -29,7 +29,8 @@ jarPlug.modules = $.extend(jarPlug.modules, {
 		dependencies: ['main'],
 		url: jarPlug.baseUrl + "ui.js",
 		load: true,
-		unload: true
+		unload: true,
+		loadInPopout: true
 	},
 	autowoot: {
 		dependencies: [],
@@ -65,7 +66,8 @@ jarPlug.modules = $.extend(jarPlug.modules, {
 		dependencies: [],
 		url: jarPlug.baseUrl + "emoji.js",
 		load: true,
-		unload: true
+		unload: true,
+		loadInPopout: true
 	}
 });
 
