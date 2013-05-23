@@ -36,7 +36,7 @@ var togglevideo = jarPlug.togglevideo = {
 				'display': 'none',
 				'font-size': '11px', 
 				'position': 'absolute', 
-				'bottom': '5px', 
+				'bottom': '3px', 
 				'left': '5px', 
 				'z-index': '10', 
 				'border': '0', 
