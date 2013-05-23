@@ -66,7 +66,13 @@ jarPlug.modules = $.extend(jarPlug.modules, {
 		url: jarPlug.baseUrl + "emoji.js",
 		load: true,
 		unload: true
-	}
+	},
+	togglevideo: {
+		dependencies: [],
+		url: jarPlug.baseUrl + "togglevideo.js",
+		load: true,
+		unload: true
+	},
 });
 
 var defaultModules = [
@@ -140,6 +146,7 @@ var main = jarPlug.main = {
 				, 'DJ Leave Alert': jarPlug.ui.createSettingsElement('module:djleavealert', 'checkbox')
 				, 'Hide NSFW': jarPlug.ui.createSettingsElement('module:hidensfw', 'checkbox')
 				, 'Emojis': jarPlug.ui.createSettingsElement('module:emoji', 'checkbox')
+				, 'Toggle Video Button': jarPlug.ui.createSettingsElement('module:togglevideo', 'checkbox')
 				, ' ': 			jarPlug.ui.createSettingsElement(jarPlug.reload, 'button').text("Reload jarPlug")
 			}
 		}
