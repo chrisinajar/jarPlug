@@ -119,7 +119,11 @@ var idle = jarPlug.idle = {
 	},
 	update: function() {
 		var now = (new Date()).getTime();
-		$.each(API.getDJs(), function(i){
+		var djs = API.getDJs();
+		$.each(displays, function(){
+			this.innerHTML = '';
+		});
+		$.each(djs, function(i){
 			displays[i].innerHTML = idle.format((now - users[this.id]) / 1000);
 		});
 	},

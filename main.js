@@ -66,6 +66,12 @@ jarPlug.modules = $.extend(jarPlug.modules, {
 		url: jarPlug.baseUrl + "emoji.js",
 		load: true,
 		unload: true
+	},
+	chatexpand: {
+		dependencies: [],
+		url: jarPlug.baseUrl + "chatexpand.js",
+		load: true,
+		unload: true
 	}
 });
 
