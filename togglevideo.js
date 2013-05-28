@@ -28,45 +28,38 @@ I am not responsible for the actions of your parents
 (function($, undefined) {
 if (!jarPlug) return;
 	
-var hidensfw = jarPlug.hidensfw = {
+var togglevideo = jarPlug.togglevideo = {
 	load: function() {
-		API.addEventListener(API.CHAT, hidensfw.chat);
-
 		$('#playback').append(
-			$('<button id="button-show-video">Show Video</button>')
-				.css({
-					'position':'absolute',
-					'top':'45%', 
-					'left':'41%', 
-					'z-index':'3',
-					'border':'0',
-					'width':'100px'
-				})
-				.on('click', function() { 
-					$('#playback-container').show(); 
-				})
-		);
+			$('<button id="button-video">Toggle Video</button>')
+			.css({ 
+				'display': 'none',
+				'font-size': '11px', 
+				'position': 'absolute', 
+				'bottom': '3px', 
+				'left': '5px', 
+				'z-index': '10', 
+				'border': '0', 
+				'color': '#fff',
+				'background': '#777',
+				'width': '50px'
+			})
+			.click(function() {
+				$('#playback-container').toggle();
+			})
+		).on('mouseenter.togglevideo', function() {
+			$('#button-video').show();
+		}).on('mouseleave.togglevideo', function() {
+			$('#button-video').hide();
+		});
 
 		return true;
 	},
 	unload: function() {
-		API.removeEventListener(API.CHAT, hidensfw.chat);
-		API.removeEventListener(API.DJ_ADVANCE, hidensfw.dj_advance);
-		
-		$("#playback-container").show();
-		$('#button-show-video').remove();
+		$('#playback').unbind('.togglevideo');
+		$('#button-video').remove();
 
 		return true;
-	},
-	chat: function(data) {
-		if(data.message && /\bnsfw\b/i.test(data.message)) {
-			API.addEventListener(API.DJ_ADVANCE, hidensfw.dj_advance);
-			$("#playback-container").hide();
-		}
-	},
-	dj_advance: function() {
-		API.removeEventListener(API.DJ_ADVANCE, hidensfw.dj_advance);
-		$("#playback-container").show();
 	}
 }
 })(jQuery);
