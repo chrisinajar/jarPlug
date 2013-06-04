@@ -161,7 +161,10 @@ var ui = jarPlug.ui = {
 			if (typeof module.getSettings === 'function') {
 				console.log('Checking settings for ' + name);
 				var msett = module.getSettings();
-				settings[msett.name] = msett.options;
+				for(var prop in msett) {
+					settings[prop] = msett[prop];
+				}
+				//settings[msett.name] = msett.options;
 			}
 		});
 

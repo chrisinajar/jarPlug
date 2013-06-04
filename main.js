@@ -141,21 +141,23 @@ var main = jarPlug.main = {
 	},
 	getSettings: function() {
 		return {
-			name: 'General',
-			options: {
-				'Hide Video Player': jarPlug.ui.createSettingsElement('hidevideo', 'checkbox')
+			'UI': {
+				'Hide Video': jarPlug.ui.createSettingsElement('hidevideo', 'checkbox')
 				, 'Hide Chat': jarPlug.ui.createSettingsElement('hidechat', 'checkbox')
 				, 'Disable Animations': jarPlug.ui.createSettingsElement('disableAnimations', 'checkbox')
-				, 'Idle Timers': jarPlug.ui.createSettingsElement('module:idle', 'checkbox')
+				, 'Toggle Video': jarPlug.ui.createSettingsElement('module:togglevideo', 'checkbox')
 				, 'Chat Expand (wide)': jarPlug.ui.createSettingsElement('module:chatexpand', 'checkbox')
-				, 'Toggle Video Button': jarPlug.ui.createSettingsElement('module:togglevideo', 'checkbox')
-				, 'Auto Woot': 	jarPlug.ui.createSettingsElement('module:autowoot', 'checkbox')
+				, 'Idle Timers': jarPlug.ui.createSettingsElement('module:idle', 'checkbox')
+				, 'Emojis': jarPlug.ui.createSettingsElement('module:emoji', 'checkbox')
+			}
+			, 'Misc': {
+				'Auto Woot': jarPlug.ui.createSettingsElement('module:autowoot', 'checkbox')
 				, 'Double-Meh to Mute': jarPlug.ui.createSettingsElement('module:doublemeh', 'checkbox')
 				, 'DJ Leave Alert': jarPlug.ui.createSettingsElement('module:djleavealert', 'checkbox')
 				, 'Hide NSFW': jarPlug.ui.createSettingsElement('module:hidensfw', 'checkbox')
-				, 'Emojis': jarPlug.ui.createSettingsElement('module:emoji', 'checkbox')
-				, ' ': jarPlug.ui.createSettingsElement(function() {}, 'empty')
-				, '  ': jarPlug.ui.createSettingsElement(jarPlug.reload, 'button').text("Reload jarPlug")
+			}
+			, '': {
+				'': jarPlug.ui.createSettingsElement(jarPlug.reload, 'button').text("Reload jarPlug")
 			}
 		}
 	},
