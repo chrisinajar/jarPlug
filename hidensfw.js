@@ -37,10 +37,17 @@ var hidensfw = jarPlug.hidensfw = {
 				.css({
 					'position':'absolute',
 					'top':'45%', 
-					'left':'41%', 
+					'left':'40%', 
 					'z-index':'3',
 					'border':'0',
-					'width':'100px'
+					'width':'100px',
+					'padding':'4px',
+					'cursor':'pointer',
+					'text-transform':'uppercase',
+					'font-weight':'bold',
+					'color':'#fff',
+					'background':'#42A5DC',
+					'font-size':'11.5px'
 				})
 				.on('click', function() { 
 					$('#playback-container').show(); 

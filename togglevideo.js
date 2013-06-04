@@ -33,16 +33,20 @@ var togglevideo = jarPlug.togglevideo = {
 		$('#playback').append(
 			$('<button id="button-video">Toggle Video</button>')
 			.css({ 
-				'display': 'none',
-				'font-size': '11px', 
-				'position': 'absolute', 
-				'bottom': '3px', 
-				'left': '5px', 
-				'z-index': '10', 
-				'border': '0', 
-				'color': '#fff',
-				'background': '#777',
-				'width': '50px'
+				'display':'none',
+				'font-size':'10px', 
+				'position':'absolute', 
+				'bottom':'3px', 
+				'left':'5px', 
+				'z-index':'10', 
+				'border':'0', 
+				'color':'#fff',
+				'background':'#42A5DC',
+				'width':'60px',
+				'cursor':'pointer',
+				'padding':'4px',
+				'text-transform':'uppercase',
+				'font-weight':'bold'
 			})
 			.click(function() {
 				$('#playback-container').toggle();
