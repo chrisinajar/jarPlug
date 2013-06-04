@@ -174,6 +174,7 @@ var ui = jarPlug.ui = {
 			isModule = true;
 			name = name.substring(7).trim()
 		}
+
 		var widget;
 		switch (type) {
 			case 'checkbox':
@@ -199,6 +200,14 @@ var ui = jarPlug.ui = {
 						}
 					})
 					.click(name);
+				break;
+			case 'empty':
+				widget = $('<div />', {
+						css: {
+							height: '1em'
+						}						
+					});
+				break;
 		}
 
 		var curValue;

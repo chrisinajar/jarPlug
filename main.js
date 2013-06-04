@@ -73,6 +73,12 @@ jarPlug.modules = $.extend(jarPlug.modules, {
 		load: true,
 		unload: true
 	},
+	chatexpand: {
+		dependencies: [],
+		url: jarPlug.baseUrl + "chatexpand.js",
+		load: true,
+		unload: true
+	}
 });
 
 var defaultModules = [
@@ -140,14 +146,16 @@ var main = jarPlug.main = {
 				'Hide Video Player': jarPlug.ui.createSettingsElement('hidevideo', 'checkbox')
 				, 'Hide Chat': jarPlug.ui.createSettingsElement('hidechat', 'checkbox')
 				, 'Disable Animations': jarPlug.ui.createSettingsElement('disableAnimations', 'checkbox')
+				, 'Idle Timers': jarPlug.ui.createSettingsElement('module:idle', 'checkbox')
+				, 'Chat Expand (wide)': jarPlug.ui.createSettingsElement('module:chatexpand', 'checkbox')
+				, 'Toggle Video Button': jarPlug.ui.createSettingsElement('module:togglevideo', 'checkbox')
 				, 'Auto Woot': 	jarPlug.ui.createSettingsElement('module:autowoot', 'checkbox')
 				, 'Double-Meh to Mute': jarPlug.ui.createSettingsElement('module:doublemeh', 'checkbox')
-				, 'Idle Timers': jarPlug.ui.createSettingsElement('module:idle', 'checkbox')
 				, 'DJ Leave Alert': jarPlug.ui.createSettingsElement('module:djleavealert', 'checkbox')
 				, 'Hide NSFW': jarPlug.ui.createSettingsElement('module:hidensfw', 'checkbox')
 				, 'Emojis': jarPlug.ui.createSettingsElement('module:emoji', 'checkbox')
-				, 'Toggle Video Button': jarPlug.ui.createSettingsElement('module:togglevideo', 'checkbox')
-				, ' ': 			jarPlug.ui.createSettingsElement(jarPlug.reload, 'button').text("Reload jarPlug")
+				, ' ': jarPlug.ui.createSettingsElement(function() {}, 'empty')
+				, '  ': jarPlug.ui.createSettingsElement(jarPlug.reload, 'button').text("Reload jarPlug")
 			}
 		}
 	},

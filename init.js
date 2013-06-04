@@ -210,7 +210,7 @@ var jarPlug = window.jarPlug = {
 		}
 		var deferr = loadedModules[name] = new $.Deferred;
 		if (!(name in jarPlug.modules)) {
-			throw new Error("Module must be in jarPlug.modules before loading");
+			console.log("Error loading module: '" + name + "'.");
 		}
 		var module = jarPlug.modules[name];
 
