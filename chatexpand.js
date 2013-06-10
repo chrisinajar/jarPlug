@@ -129,11 +129,13 @@ var chatexpand = jarPlug.chatexpand = {
 		//this one's a pain, mod the width in the stylesheet directly
 		$.each(document.styleSheets, function(i, styleSheet) {
 			$.each(styleSheet.cssRules, function(j, rule) {
-				if (rule.selectorText == '.chat-message, .chat-mention, .chat-emote, .chat-skip, .chat-moderation, .chat-system, .chat-update'
-					|| rule.selectorText == '.chat-admin'
-					|| rule.selectorText == '.chat-ambassador'
-					|| rule.selectorText == '.chat-manager'
-					|| rule.selectorText == '.chat-bouncer')
+				if (rule.selectorText === '.chat-message, .chat-mention, .chat-emote, .chat-skip, .chat-moderation, .chat-system, .chat-update'
+					|| rule.selectorText === '.chat-admin'
+					|| rule.selectorText === '.chat-ambassador'
+					|| rule.selectorText === '.chat-host'
+					|| rule.selectorText === '.chat-cohost'
+					|| rule.selectorText === '.chat-manager'
+					|| rule.selectorText === '.chat-bouncer')
 				{
 					rule.style.width = (parseInt(rule.style.width, 10) + pbWidth) + 'px';
 				}
