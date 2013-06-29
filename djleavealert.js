@@ -90,6 +90,11 @@ var djleavealert = jarPlug.djleavealert = {
 		loudBeep.play();
 	},
 	flashBackground: function() {
+		// don't flash the bg when window is not visible
+		if(document.hidden || document.webkitHidden) {
+			return;
+		}
+		
 		var flashes = 0;
 		var blinkInt = setInterval(function() {
 			var body = $('body');
