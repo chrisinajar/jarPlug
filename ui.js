@@ -74,11 +74,13 @@ var ui = jarPlug.ui = {
 		$("#user-meta").append(menu);
 	},
 	createModalWindow: function(title) {
+		var width = $(window).width();
+
 		var dialog = $('<div />', {
 				class: 'jarPlug dialog',
 				css: {
 					position: 'absolute',
-					left: (Main.WIDTH/2) - 200 + Main.LEFT,
+					left: (width/2) - 200,
 					top: 344-250,
 					width: 400,
 					height: 500
