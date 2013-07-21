@@ -79,7 +79,7 @@ var djleavealert = jarPlug.djleavealert = {
 		djleavealert.settings.djs = users;
 	},
 	beep: function() {
-		var plugVolume = (window.Playback.volume > 0 ? window.Playback.volume : 10) / 100;
+		var plugVolume = (API.getVolume() > 0 ? API.getVolume() : 10) / 100;
 		if(isNaN(plugVolume)) {
 			plugVolume = djleavealert.settings.maxVolume;
 		}
