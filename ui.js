@@ -172,6 +172,7 @@ var ui = jarPlug.ui = {
 		return settings;
 	},
 	createSettingsElement: function(name, type) {
+		debugger;
 		var isModule = false;
 		var isFunction = typeof name === 'function';
 		if (!isFunction && name.indexOf("module:") === 0) {
