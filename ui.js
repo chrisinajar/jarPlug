@@ -115,7 +115,7 @@ var ui = jarPlug.ui = {
 					class: 'dialog-body'
 				})
 			)
-			.appendTo($("#dialog-box"));
+			.appendTo($("#dialog-container"));
 
 		$("#dialog-container").show();
 		return dialog.find('.dialog-body');
@@ -210,7 +210,7 @@ var ui = jarPlug.ui = {
 				widget = $('<div />', {
 						css: {
 							height: '1em'
-						}						
+						}
 					});
 				break;
 		}
