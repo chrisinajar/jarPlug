@@ -121,8 +121,7 @@ var ui = jarPlug.ui = {
 		return dialog.find('.dialog-body');
 	},
 	checkOverlay: function() {
-		if ($("#dialog-container").children().length === 1)
-			$("#dialog-container").hide();
+		$("#dialog-container").hide();
 	},
 	showSettings: function() {
 		var dialog = ui.createModalWindow("jarPlug Settings");
