@@ -121,7 +121,7 @@ var ui = jarPlug.ui = {
 		return dialog.find('.dialog-body');
 	},
 	checkOverlay: function() {
-		if ($("#dialog-container").children().length === 2 && $("#dialog-box").children().length == 0)
+		if ($("#dialog-container").children().length === 1)
 			$("#dialog-container").hide();
 	},
 	showSettings: function() {
