@@ -172,7 +172,6 @@ var ui = jarPlug.ui = {
 		return settings;
 	},
 	createSettingsElement: function(name, type) {
-		debugger;
 		var isModule = false;
 		var isFunction = typeof name === 'function';
 		if (!isFunction && name.indexOf("module:") === 0) {
@@ -186,6 +185,7 @@ var ui = jarPlug.ui = {
 				widget = $("<input />", {
 					type: 'checkbox'
 				})
+				.addClass('chkbox-for-'+name)
 				.data('jarPlugGetValue', function() {
 					return widget.attr('checked')=='checked';
 				})
