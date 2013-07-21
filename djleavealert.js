@@ -37,13 +37,13 @@ var djleavealert = jarPlug.djleavealert = {
 		volumeBoost: 0.15, // boost % for alert beep over pdj volume (up to maxVolume)
 	},
 	load: function() {
-		API.addEventListener(API.DJ_UPDATE, djleavealert.dj_update);
+		API.on(API.DJ_UPDATE, djleavealert.dj_update);
 		djleavealert.render();	
 		djleavealert.djs = API.getDJs();
 		return true;
 	},
 	unload: function() {
-		API.removeEventListener(API.DJ_UPDATE, djleavealert.dj_update);
+		API.off(API.DJ_UPDATE, djleavealert.dj_update);
 		return true;
 	},
 	render: function() {
