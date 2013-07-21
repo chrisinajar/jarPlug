@@ -34,12 +34,12 @@ var autowoot = jarPlug.autowoot = {
 		enabled: true //false if you hate fun
 	},
 	load: function() {
-		API.addEventListener(API.DJ_ADVANCE, autowoot.callback);
+		API.on(API.DJ_ADVANCE, autowoot.callback);
 		$('#button-vote-negative').click(autowoot.meh);
 		return true;
 	},
 	unload: function() {
-		API.removeEventListener(API.DJ_ADVANCE, autowoot.callback);
+		API.off(API.DJ_ADVANCE, autowoot.callback);
 		$('#button-vote-negative').unbind('click', autowoot.meh);
 		return true;
 	},

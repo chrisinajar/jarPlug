@@ -61,12 +61,12 @@ jarPlug.modules = $.extend(jarPlug.modules, {
 		load: true,
 		unload: true
 	},
-	emoji: {
-		dependencies: [],
-		url: jarPlug.baseUrl + "emoji.js",
-		load: true,
-		unload: true
-	},
+	//emoji: {
+	//	dependencies: [],
+	//	url: jarPlug.baseUrl + "emoji.js",
+	//	load: true,
+	//	unload: true
+	//},
 	togglevideo: {
 		dependencies: [],
 		url: jarPlug.baseUrl + "togglevideo.js",
@@ -144,11 +144,14 @@ var main = jarPlug.main = {
 			'UI': {
 				'Hide Video': jarPlug.ui.createSettingsElement('hidevideo', 'checkbox')
 				, 'Hide Chat': jarPlug.ui.createSettingsElement('hidechat', 'checkbox')
-				, 'Disable Animations': jarPlug.ui.createSettingsElement('disableAnimations', 'checkbox')
+				//disable animations seems broken after the plug.dj update. The animations appear to be
+				//in a closure that we can't access.
+				//, 'Disable Animations': jarPlug.ui.createSettingsElement('disableAnimations', 'checkbox')
 				, 'Toggle Video': jarPlug.ui.createSettingsElement('module:togglevideo', 'checkbox')
 				, 'Chat Expand (wide)': jarPlug.ui.createSettingsElement('module:chatexpand', 'checkbox')
 				, 'Idle Timers': jarPlug.ui.createSettingsElement('module:idle', 'checkbox')
-				, 'Emojis': jarPlug.ui.createSettingsElement('module:emoji', 'checkbox')
+				//disabled because PDJ has emoji support built in now. Don't need it in jarplug.
+				//, 'Emojis': jarPlug.ui.createSettingsElement('module:emoji', 'checkbox')
 			}
 			, 'Misc': {
 				'Auto Woot': jarPlug.ui.createSettingsElement('module:autowoot', 'checkbox')
