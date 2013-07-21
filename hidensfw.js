@@ -30,7 +30,7 @@ if (!jarPlug) return;
 	
 var hidensfw = jarPlug.hidensfw = {
 	load: function() {
-		API.addEventListener(API.CHAT, hidensfw.chat);
+		API.on(API.CHAT, hidensfw.chat);
 
 		$('#playback').append(
 			$('<button id="button-show-video">Show Video</button>')
@@ -57,8 +57,8 @@ var hidensfw = jarPlug.hidensfw = {
 		return true;
 	},
 	unload: function() {
-		API.removeEventListener(API.CHAT, hidensfw.chat);
-		API.removeEventListener(API.DJ_ADVANCE, hidensfw.dj_advance);
+		API.off(API.CHAT, hidensfw.chat);
+		API.off(API.DJ_ADVANCE, hidensfw.dj_advance);
 		
 		$("#playback-container").show();
 		$('#button-show-video').remove();
@@ -67,12 +67,12 @@ var hidensfw = jarPlug.hidensfw = {
 	},
 	chat: function(data) {
 		if(data.message && /\bnsfw\b/i.test(data.message)) {
-			API.addEventListener(API.DJ_ADVANCE, hidensfw.dj_advance);
+			API.on(API.DJ_ADVANCE, hidensfw.dj_advance);
 			$("#playback-container").hide();
 		}
 	},
 	dj_advance: function() {
-		API.removeEventListener(API.DJ_ADVANCE, hidensfw.dj_advance);
+		API.off(API.DJ_ADVANCE, hidensfw.dj_advance);
 		$("#playback-container").show();
 	}
 }
