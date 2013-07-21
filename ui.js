@@ -101,6 +101,7 @@ var ui = jarPlug.ui = {
 					})
 					.click(function() {
 						dialog.remove();
+						$(jarPlug).off('settingsChanged'));
 						ui.checkOverlay();
 					})
 				)
