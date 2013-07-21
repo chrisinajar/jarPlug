@@ -76,8 +76,8 @@ var chatexpand = jarPlug.chatexpand = {
 		$(btn).click(chatexpand.toggleVideo);
 
 		//when chat expanded/contracted, need to keep the button in the right spot
-		$('#button-chat-expand').click(chatexpand.chatExpand);
-		$('#button-chat-collapse').click(chatexpand.chatCollapse);
+		$('#button-chat-expand').click(function(){setTimeout(chatexpand.chatExpand, 25)});
+		$('#button-chat-collapse').click(function(){setTimeout(chatexpand.chatCollapse, 25)});
 		
 		return true;
 	},
