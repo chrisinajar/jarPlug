@@ -233,8 +233,12 @@ var ui = jarPlug.ui = {
 			$(jarPlug).on('settingsChanged', function(event, eventName, value) {
 				if (name !== eventName)
 					return;
-				widget.data('jarPlugSetValue')(jarPlug.main.hasModule(name));
-				console.log('Setting my ui based on ', jarPlug.main.hasModule(name))
+				try {
+					widget.data('jarPlugSetValue')(jarPlug.main.hasModule(name));
+					console.log('Setting my ui based on ', jarPlug.main.hasModule(name))
+				} catch (e) {
+					console.log ('The exception: ' + e, e)
+				}
 			})
 			curValue = jarPlug.main.hasModule(name);
 		} else if (!isFunction) {
