@@ -74,11 +74,13 @@ var ui = jarPlug.ui = {
 		$("#user-meta").append(menu);
 	},
 	createModalWindow: function(title) {
+		var width = $(window).width();
+
 		var dialog = $('<div />', {
 				class: 'jarPlug dialog',
 				css: {
 					position: 'absolute',
-					left: (Main.WIDTH/2) - 200 + Main.LEFT,
+					left: (width/2) - 200,
 					top: 344-250,
 					width: 400,
 					height: 500
@@ -99,6 +101,7 @@ var ui = jarPlug.ui = {
 					})
 					.click(function() {
 						dialog.remove();
+						$(jarPlug).off('settingsChanged');
 						ui.checkOverlay();
 					})
 				)
@@ -113,14 +116,13 @@ var ui = jarPlug.ui = {
 					class: 'dialog-body'
 				})
 			)
-			.appendTo($("#dialog-box"));
+			.appendTo($("#dialog-container"));
 
 		$("#dialog-container").show();
 		return dialog.find('.dialog-body');
 	},
 	checkOverlay: function() {
-		if ($("#dialog-container").children().length === 2 && $("#dialog-box").children().length == 0)
-			$("#dialog-container").hide();
+		$("#dialog-container").hide();
 	},
 	showSettings: function() {
 		var dialog = ui.createModalWindow("jarPlug Settings");
@@ -184,6 +186,7 @@ var ui = jarPlug.ui = {
 				widget = $("<input />", {
 					type: 'checkbox'
 				})
+				.addClass('chkbox-for-'+name)
 				.data('jarPlugGetValue', function() {
 					return widget.attr('checked')=='checked';
 				})
@@ -208,7 +211,7 @@ var ui = jarPlug.ui = {
 				widget = $('<div />', {
 						css: {
 							height: '1em'
-						}						
+						}
 					});
 				break;
 		}
@@ -231,8 +234,12 @@ var ui = jarPlug.ui = {
 			$(jarPlug).on('settingsChanged', function(event, eventName, value) {
 				if (name !== eventName)
 					return;
-				widget.data('jarPlugSetValue')(jarPlug.main.hasModule(name));
-				console.log('Setting my ui based on ', jarPlug.main.hasModule(name))
+				try {
+					widget.data('jarPlugSetValue')(jarPlug.main.hasModule(name));
+					console.log('Setting my ui based on ', jarPlug.main.hasModule(name))
+				} catch (e) {
+					console.log ('The exception: ' + e, e)
+				}
 			})
 			curValue = jarPlug.main.hasModule(name);
 		} else if (!isFunction) {

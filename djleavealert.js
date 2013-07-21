@@ -37,13 +37,13 @@ var djleavealert = jarPlug.djleavealert = {
 		volumeBoost: 0.15, // boost % for alert beep over pdj volume (up to maxVolume)
 	},
 	load: function() {
-		API.addEventListener(API.DJ_UPDATE, djleavealert.dj_update);
+		API.on(API.DJ_UPDATE, djleavealert.dj_update);
 		djleavealert.render();	
 		djleavealert.djs = API.getDJs();
 		return true;
 	},
 	unload: function() {
-		API.removeEventListener(API.DJ_UPDATE, djleavealert.dj_update);
+		API.off(API.DJ_UPDATE, djleavealert.dj_update);
 		return true;
 	},
 	render: function() {
@@ -59,7 +59,7 @@ var djleavealert = jarPlug.djleavealert = {
 	},
 	dj_update: function(users) {
 		var len = users.length;
-		var me = API.getSelf();
+		var me = API.getUser();
 		
 		if(len < djleavealert.settings.maxDjs) {
 			console.log('[Leave Alert] DJ slot open.');
@@ -79,7 +79,7 @@ var djleavealert = jarPlug.djleavealert = {
 		djleavealert.settings.djs = users;
 	},
 	beep: function() {
-		var plugVolume = (window.Playback.volume > 0 ? window.Playback.volume : 10) / 100;
+		var plugVolume = (API.getVolume() > 0 ? API.getVolume() : 10) / 100;
 		if(isNaN(plugVolume)) {
 			plugVolume = djleavealert.settings.maxVolume;
 		}

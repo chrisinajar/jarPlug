@@ -24,19 +24,20 @@ I am not responsible for the actions of your parents
 if (!jarPlug) return;
 
 var mehCount = 0,
-	muted = false;
+	muted = false,
+	volume = 0;
 	
 var doublemeh = jarPlug.doublemeh = {
 	settings: {
 	},
 	load: function() {
-		API.addEventListener(API.DJ_ADVANCE, doublemeh.dj_advance);
+		API.on(API.DJ_ADVANCE, doublemeh.dj_advance);
 		$('#button-vote-negative').click(doublemeh.meh);
 		return true;
 	},
 	unload: function() {
 		$('#button-vote-negative').unbind('click', doublemeh.meh);
-		API.removeEventListener(API.DJ_ADVANCE, doublemeh.dj_advance);
+		API.off(API.DJ_ADVANCE, doublemeh.dj_advance);
 		return true;
 	},
 	dj_advance: function() {
@@ -56,15 +57,20 @@ var doublemeh = jarPlug.doublemeh = {
 			doublemeh.mute(true);
 		}
 	},
+	isMuted: function(){
+		return 0 == $('#volume-bar-value').width();
+	},
 	mute: function(state) {
 		//don't bother if we're already in the selected state
-		if (state === Playback.isMuted)
+		if (state && 0 == API.getVolume())
 		{
 			return;
 		}
 		
 		//set the mute (or unset it)
-		Playback.onSoundButtonClick();
+		var lastVolume = API.getVolume();
+		API.setVolume(state ? 0 : volume)
+		volume = lastVolume;
 		
 		//set the muted state so we know where we stand
 		muted = state;

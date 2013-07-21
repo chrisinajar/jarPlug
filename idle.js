@@ -33,9 +33,9 @@ var idle = jarPlug.idle = {
 	},
 	load: function() {
 		//start listening
-		API.addEventListener(API.CHAT, idle.chat);
-		API.addEventListener(API.USER_JOIN, idle.userJoin);
-		API.addEventListener(API.USER_LEAVE, idle.userLeave);
+		API.on(API.CHAT, idle.chat);
+		API.on(API.USER_JOIN, idle.userJoin);
+		API.on(API.USER_LEAVE, idle.userLeave);
 		
 		//assume everyone's idle time starts now
 		var now = (new Date()).getTime();
@@ -57,9 +57,9 @@ var idle = jarPlug.idle = {
 		clearInterval(interval);
 		
 		//stop listening
-		API.removeEventListener(API.CHAT, idle.chat);
-		API.removeEventListener(API.USER_JOIN, idle.userJoin);
-		API.removeEventListener(API.USER_LEAVE, idle.userLeave);
+		API.off(API.CHAT, idle.chat);
+		API.off(API.USER_JOIN, idle.userJoin);
+		API.off(API.USER_LEAVE, idle.userLeave);
 		
 		//clean up the users list
 		users = {};
