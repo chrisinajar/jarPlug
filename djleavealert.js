@@ -59,7 +59,7 @@ var djleavealert = jarPlug.djleavealert = {
 	},
 	dj_update: function(users) {
 		var len = users.length;
-		var me = API.getSelf();
+		var me = API.getUser();
 		
 		if(len < djleavealert.settings.maxDjs) {
 			console.log('[Leave Alert] DJ slot open.');
